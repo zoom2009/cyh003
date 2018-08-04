@@ -35,6 +35,7 @@ async function registerForPushNotificationsAsync() {
   let token = await Notifications.getExpoPushTokenAsync();
 
   console.log(token);
+  Alert.alert(token)
 }
 
 class ProfileScreen extends Component {

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add mobx@4 --save
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add mobx@4.0.3 --save
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Git\cmd;d:\Program Files\MATLAB\R2017a\runtime\win64;d:\Program Files\MATLAB\R2017a\bin;C:\Users\Fu\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\cygwin64\bin;;C:\Program Files\Microsoft VS Code\bin;C:\Users\Fu\AppData\Local\Microsoft\WindowsApps;C:\Users\Fu\AppData\Roaming\npm;C:\Users\Fu\AppData\Local\atom\bin;C:\Users\Fu\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Fu\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Nox\bin;C:\cygwin64\bin;C:\Windows\system32;C:\Program Files\Java\jre1.8.0_181\bin;
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Fu\newww\node_modules\@babel\template\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\Fu\newww\node_modules\@expo\vector-icons\node_modules\.bin'
 
 npm manifest: 
   {
@@ -30,7 +30,7 @@ npm manifest:
     "dependencies": {
       "es6-symbol": "^3.1.1",
       "expo": "^29.0.0",
-      "mobx": "^5.0.3",
+      "mobx": "4",
       "mobx-react": "^5.2.3",
       "react": "16.3.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
@@ -3324,9 +3324,9 @@ Lockfile:
       hoist-non-react-statics "^2.5.0"
       react-lifecycles-compat "^3.0.2"
   
-  mobx@^5.0.3:
-    version "5.0.3"
-    resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.0.3.tgz#53b97f2a0f9b0dd7774c96249f81bf2d513d8e1c"
+  mobx@4:
+    version "4.3.1"
+    resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.3.1.tgz#334e5aab4916b1d43f0faf3605a64b1b4b3ccb8d"
   
   morgan@^1.9.0:
     version "1.9.0"
