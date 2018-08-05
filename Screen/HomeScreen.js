@@ -4,13 +4,14 @@ import { LinearGradient } from 'expo';
 
 import { inject, observer } from 'mobx-react'
 
+
 class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
   }
   constructor(props) {
     super(props)
-
+    
   }
 
   displaydata = async () => {

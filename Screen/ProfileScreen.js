@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Alert, AsyncStorage } from 'react-native';
+import { View, StyleSheet, Text, Alert, AsyncStorage, BackHandler } from 'react-native';
 import { LinearGradient } from 'expo';
 import Logocyh from '../components/Logocyh'
 import BtnNormal from '../components/BtnNormal'
@@ -49,14 +49,21 @@ async function registerForPushNotificationsAsync(mac_address, fn) {
   fn(token)
 }
 
+
 class ProfileScreen extends Component {
   static navigationOptions = {
-    title: 'Profile'
+    title: 'Profile',
   }
-
+  
+  
  
   constructor(props) {
     super(props)
+
+    BackHandler.addEventListener('hardwareBackPress', function() {
+      BackHandler.exitApp()
+      return true;
+    })    
 
     this.state = {
       token : ''

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Asset } from 'expo'
 import 'es6-symbol/implement'
 
-import { StackNavigator } from 'react-navigation'
+import { NavigationActions, createStackNavigator } from 'react-navigation'
 
 import { Provider } from 'mobx-react'
 import CarState from './Stores/CarState'
@@ -16,8 +16,8 @@ import ProfileScreen from './Screen/ProfileScreen'
   import Sub3Screen from './Screen/SubProfile/Sub3Screen';
   import Sub4Screen from './Screen/SubProfile/Sub4Screen';
 
-const NavigationApp = StackNavigator({
-  Home: { screen: HomeScreen, },
+const  NavigationApp = createStackNavigator({
+  Home: { screen: HomeScreen,  },
   Login: { screen: LoginScreen },
   Profile: { screen: ProfileScreen },
     Sub1: { screen: Sub1Screen },
@@ -31,7 +31,28 @@ const NavigationApp = StackNavigator({
     navigationOptions: {
       gesturesEnabled: false
     }
-});
+})
+/*
+const NavigationApp = StackNavigator({
+  Home: { screen: HomeScreen,  },
+  Login: { screen: LoginScreen },
+  Profile: { screen: ProfileScreen },
+    Sub1: { screen: Sub1Screen },
+    Sub2: { screen: Sub2Screen },
+    Sub3: { screen: Sub3Screen },
+    Sub4: { screen: Sub4Screen }
+  }, {
+    index: 0,
+    initialRouteName: 'Home',
+    headerMode: 'none',
+    navigationOptions: {
+      gesturesEnabled: false,
+      header: {
+        left: null
+      },
+      headerLeft: null
+    }
+});*/
 
 
 export default class App extends Component {
@@ -45,7 +66,14 @@ export default class App extends Component {
     ]);
   }
 
+
+  constructor(props) {
+    super(props)
+
+  }
+
   render() {
+    
     return (
       <Provider CarState={CarState}>
         <NavigationApp />

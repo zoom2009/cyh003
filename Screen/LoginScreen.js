@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Alert, Image, AsyncStorage } from 'react-native';
+import { View, StyleSheet, Alert, Image, AsyncStorage, BackHandler } from 'react-native';
 
 import  BtnFull  from '../components/BtnFull'
 import  BtnTransparent  from '../components/BtnTransparent'
@@ -12,12 +12,18 @@ import Logocyh from '../components/Logocyh';
 
 import { inject, observer } from 'mobx-react'
 
+
 class LoginScreen extends Component {
   static navigationOptions = {
     title: 'Login'
   }
   constructor(props) {
     super(props);
+
+    BackHandler.addEventListener('hardwareBackPress', function() {
+      BackHandler.exitApp()
+      return true;
+    })    
 
     this.state = {
       waitLogin: false,
