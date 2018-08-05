@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Asset } from 'expo'
 import 'es6-symbol/implement'
 
 import { StackNavigator } from 'react-navigation'
@@ -34,6 +35,16 @@ const NavigationApp = StackNavigator({
 
 
 export default class App extends Component {
+  async componentWillMount() {
+
+    await Asset.loadAsync([
+      require('./img/boy_icon.png'),
+      require('./img/girl_icon.png'),
+      require('./img/icon.png'),
+      require('./img/van_icon.png'),
+    ]);
+  }
+
   render() {
     return (
       <Provider CarState={CarState}>

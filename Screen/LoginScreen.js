@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Alert, Image } from 'react-native';
+import { View, StyleSheet, Alert, Image, AsyncStorage } from 'react-native';
 
 import  BtnFull  from '../components/BtnFull'
 import  BtnTransparent  from '../components/BtnTransparent'
@@ -55,6 +55,8 @@ class LoginScreen extends Component {
           Alert.alert('Username หรือ Password ไม่ถูกต้อง')
         }else {
           console.log(responseJson[0].mac_address)
+          let member = responseJson[0].mac_address
+          AsyncStorage.setItem('member', member)
           const { navigate } = this.props.navigation
           this.props.CarState.mac_address = responseJson[0].mac_address
           navigate('Profile')
@@ -66,6 +68,7 @@ class LoginScreen extends Component {
           waitLogin: false
         })
       });
+    
   }
 
 

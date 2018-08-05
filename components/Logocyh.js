@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
+
 class Logocyh extends Component {
     render() {
         return (

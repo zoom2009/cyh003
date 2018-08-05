@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, AsyncStorage, Alert } from 'react-native';
 import { LinearGradient } from 'expo';
 
-export default class HomeScreen extends Component {
+import { inject, observer } from 'mobx-react'
+
+class HomeScreen extends Component {
   static navigationOptions = {
     title: 'Home'
   }
   constructor(props) {
     super(props)
 
-    setTimeout(() => {
-      const { navigate } = this.props.navigation
-      navigate('Login')
-    }, 3000) 
+  }
+
+  displaydata = async () => {
+    try {
+      let member = await AsyncStorage.getItem('member')
+      if(member!=null) {
+        //Alert.alert(member)
+        setTimeout(() => {
+          const { navigate } = this.props.navigation
+          this.props.CarState.mac_address = member
+          navigate('Profile')
+        }, 3000) 
+      }else {
+        setTimeout(() => {
+          const { navigate } = this.props.navigation
+          navigate('Login')
+        }, 3000) 
+      }
+    }catch(error) {
+      Alert.alert(error)
+    } 
   }
 
   render() {
     const { navigate } = this.props.navigation
+    this.displaydata()
     return (
       <LinearGradient 
         start={[0.5,0]}
@@ -55,3 +75,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.35)'
   }
 });
+
+export default inject('CarState')(observer(HomeScreen))
