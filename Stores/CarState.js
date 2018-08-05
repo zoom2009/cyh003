@@ -11,6 +11,7 @@ class CarState {
     lng = 99.99
     temp = 99.99
     carStatusColor = '#000'
+    token = ''
 
     setlat(l) {
         this.lat = l
@@ -39,7 +40,8 @@ decorate(CarState, {
     lng: observable,
     temp: observable,
     setlat: action,
-    setCarState: action
+    setCarState: action,
+    token: observable
 })
 
 const carState = new CarState();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo';
 import Logocyh from '../components/Logocyh'
 import BtnNormal from '../components/BtnNormal'
@@ -13,7 +13,7 @@ import SocketIOClient from 'socket.io-client';
 import { Permissions, Notifications } from 'expo';
 
 
-async function registerForPushNotificationsAsync(mac_address) {
+async function registerForPushNotificationsAsync(mac_address, fn) {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -30,7 +30,7 @@ async function registerForPushNotificationsAsync(mac_address) {
 
   let token = await Notifications.getExpoPushTokenAsync();
 
-  console.log(token);
+  //console.log(token);
 
   fetch('https://kiddatabase.herokuapp.com/pushtoken/', {
     method: 'POST',
@@ -43,21 +43,31 @@ async function registerForPushNotificationsAsync(mac_address) {
       mac_address: mac_address,
     })
   }).then((response) => {
-    Alert.alert(''+response.status)
+    //Alert.alert(''+response.status)
     console.log(response.status)
   });
+  fn(token)
 }
 
 class ProfileScreen extends Component {
   static navigationOptions = {
     title: 'Profile'
   }
+
+ 
   constructor(props) {
     super(props)
+
+    this.state = {
+      token : ''
+    }
     
 
     var { CarState } = this.props
-    registerForPushNotificationsAsync(CarState.mac_address)
+    registerForPushNotificationsAsync(CarState.mac_address, function(t) {
+      console.log('tokenttt :', t)
+      CarState.token = t
+    })
 
     //======================= Socket.io ===========================
 
@@ -141,6 +151,7 @@ class ProfileScreen extends Component {
 
   render() {
     const { navigation } = this.props;
+    const { CarState } = this.props
 
     return (
       <LinearGradient 
@@ -184,7 +195,26 @@ class ProfileScreen extends Component {
         <BtnBottom 
           text='ออกจากระบบ'
           Method={() => {
-            Alert.alert('log out')
+            fetch('https://kiddatabase.herokuapp.com/poptoken/', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                token: CarState.token,
+                mac_address: CarState.mac_address,
+              })
+            }).then((response) => {
+              //Alert.alert(''+response.status)
+              console.log(response.status)
+            });
+          
+            //Alert.alert('log out')
+            console.log('token is ', CarState.token)
+            AsyncStorage.setItem('member', '')
+            CarState.token = ''
+            this.moveTo('Login')
           }}/>
 
       </LinearGradient>
