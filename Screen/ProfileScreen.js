@@ -28,25 +28,7 @@ async function registerForPushNotificationsAsync(mac_address, fn) {
   if (finalStatus !== 'granted') {
     return;
   }
-
   let token = await Notifications.getExpoPushTokenAsync();
-
-  //console.log(token);
-
-  fetch('https://kiddatabase.herokuapp.com/pushtoken/', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: token,
-      mac_address: mac_address,
-    })
-  }).then((response) => {
-    //Alert.alert(''+response.status)
-    console.log(response.status)
-  });
   fn(token)
 }
 
@@ -81,7 +63,9 @@ class ProfileScreen extends Component {
 
     var inter = setInterval(() => {
       if(CarState.token!='') {
-        this.socket.emit('send_token', CarState.token)
+        let obj = {token: CarState.token, mac_address: CarState.mac_address}
+        this.socket.emit('push_token', obj)
+        console.log('is push : ', CarState.token)
         clearInterval(inter);
       }
     }, 100)
@@ -211,22 +195,10 @@ class ProfileScreen extends Component {
         <BtnBottom 
           text='ออกจากระบบ'
           Method={() => {
-            fetch('https://kiddatabase.herokuapp.com/poptoken/', {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                token: CarState.token,
-                mac_address: CarState.mac_address,
-              })
-            }).then((response) => {
-              //Alert.alert(''+response.status)
-              console.log(response.status)
-            });
-          
-            //Alert.alert('log out')
+            // POP TOKEN
+            let obj = {token: CarState.token, mac_address: CarState.mac_address}
+            this.socket.emit('pop_token', obj)
+           
             console.log('token is ', CarState.token)
             AsyncStorage.setItem('member', '')
             AsyncStorage.setItem('token', '')
