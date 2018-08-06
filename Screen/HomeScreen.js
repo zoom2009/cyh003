@@ -17,11 +17,13 @@ class HomeScreen extends Component {
   displaydata = async () => {
     try {
       let member = await AsyncStorage.getItem('member')
+      let token = await AsyncStorage.getItem('token')
       if(member!=null) {
         //Alert.alert(member)
         setTimeout(() => {
           const { navigate } = this.props.navigation
           this.props.CarState.mac_address = member
+          this.props.CarState.token = token
           navigate('Profile')
         }, 3000) 
       }else {

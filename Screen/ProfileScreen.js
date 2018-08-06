@@ -11,6 +11,7 @@ import { inject, observer } from 'mobx-react'
 import SocketIOClient from 'socket.io-client';
 
 import { Permissions, Notifications } from 'expo';
+import { setInterval } from 'core-js';
 
 
 async function registerForPushNotificationsAsync(mac_address, fn) {
@@ -69,17 +70,25 @@ class ProfileScreen extends Component {
       token : ''
     }
     
+    this.socket = SocketIOClient('https://kiddatabase.herokuapp.com/'); 
 
     var { CarState } = this.props
     registerForPushNotificationsAsync(CarState.mac_address, function(t) {
       console.log('tokenttt :', t)
       CarState.token = t
+      AsyncStorage.setItem('token', t)
     })
 
+    var inter = setInterval(() => {
+      if(CarState.token!='') {
+        this.socket.emit('send_token', CarState.token)
+        clearInterval(inter);
+      }
+    }, 100)
+    
+
     //======================= Socket.io ===========================
-
-    this.socket = SocketIOClient('https://kiddatabase.herokuapp.com/'); 
-
+    
     this.socket.on('alert', (mac_address) => {
       if(CarState.mac_address == mac_address) {
         Alert.alert('ฉุกเฉิน! ลูกของคุณกำลังติดอยู่ในรถ')
@@ -220,7 +229,9 @@ class ProfileScreen extends Component {
             //Alert.alert('log out')
             console.log('token is ', CarState.token)
             AsyncStorage.setItem('member', '')
+            AsyncStorage.setItem('token', '')
             CarState.token = ''
+            CarState.mac_address = ''
             this.moveTo('Login')
           }}/>
 
