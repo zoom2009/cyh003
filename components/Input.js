@@ -17,6 +17,7 @@ class Input extends Component {
                     onChangeText={(text) => {
                         this.props.textChange(text)
                     }}
+                    placeholderTextColor="rgba(255,255,255,0.5)"
                     underlineColorAndroid="rgba(0,0,0,0)" 
                     placeholder={this.props.holder}
                     secureTextEntry={this.props.isPassword}

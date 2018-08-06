@@ -160,6 +160,10 @@ class ProfileScreen extends Component {
         colors={['#E30072', '#AD0EB2', '#5800F0']}
         style={styles.container}>
 
+        <Text 
+          style={{position: 'absolute', right: 0, top:0,  marginRight: 15, marginTop: 25, fontSize: 18, color: '#fff'}}>
+          Login in addr: {CarState.mac_address}
+        </Text>
 
         <Logocyh />
 
