@@ -18,15 +18,22 @@ class HomeScreen extends Component {
     try {
       let member = await AsyncStorage.getItem('member')
       let token = await AsyncStorage.getItem('token')
-      if(member!=null) {
-        //Alert.alert(member)
+      
+      //*********** is logined ***********
+      if(member=='null' || token=='null') {
+        console.log('fuck null')
+        AsyncStorage.setItem('member', 'none')
+        AsyncStorage.setItem('token', 'none')
+      }
+      if(member!='none' && token!='none') {  // have token and member
         setTimeout(() => {
           const { navigate } = this.props.navigation
           this.props.CarState.mac_address = member
           this.props.CarState.token = token
           navigate('Profile')
         }, 3000) 
-      }else {
+      //**********************************
+      }else { 
         setTimeout(() => {
           const { navigate } = this.props.navigation
           navigate('Login')

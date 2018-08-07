@@ -1,7 +1,7 @@
 import {observable, action, computed, decorate} from 'mobx'
 
 class CarState {
-    mac_address = ''
+    mac_address = 'none'
     date = ''
     time = ''
     carID = ''
@@ -11,8 +11,8 @@ class CarState {
     lng = 99.99
     temp = 99.99
     carStatusColor = '#000'
-    token = ''
-
+    token = 'none'
+    
     setlat(l) {
         this.lat = l
     }

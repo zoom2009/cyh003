@@ -14,7 +14,7 @@ import { Permissions, Notifications } from 'expo';
 import { setInterval } from 'core-js';
 
 
-async function registerForPushNotificationsAsync(mac_address, fn) {
+async function registerForPushNotificationsAsync(fn) {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -29,6 +29,8 @@ async function registerForPushNotificationsAsync(mac_address, fn) {
     return;
   }
   let token = await Notifications.getExpoPushTokenAsync();
+  console.log('make new token got : ', token)
+  AsyncStorage.setItem('token', token)
   fn(token)
 }
 
@@ -47,22 +49,27 @@ class ProfileScreen extends Component {
       BackHandler.exitApp()
       return true;
     })    
-
-    this.state = {
-      token : ''
-    }
     
     this.socket = SocketIOClient('https://kiddatabase.herokuapp.com/'); 
 
     var { CarState } = this.props
-    registerForPushNotificationsAsync(CarState.mac_address, function(t) {
-      console.log('tokenttt :', t)
-      CarState.token = t
-      AsyncStorage.setItem('token', t)
-    })
+    // Is not have token 
+    // but have mac_address
+    console.log('before everythings token is : ', CarState.token)
+    if(CarState.token == 'none' ) {
+      registerForPushNotificationsAsync(function(token) {
+        CarState.token = token
+        console.log('this macAddress: ', CarState.mac_address, ' is make new token:', CarState.token)
+      })
+    }
 
     var inter = setInterval(() => {
-      if(CarState.token!='') {
+      console.log('running interval...')
+      //console.log('length : ', ''+CarState.token)
+      if('null' == ''+CarState.token) {
+        console.log('fucking same')
+      }
+      if(CarState.token!='none') {
         let obj = {token: CarState.token, mac_address: CarState.mac_address}
         this.socket.emit('push_token', obj)
         console.log('is push : ', CarState.token)
@@ -204,10 +211,10 @@ class ProfileScreen extends Component {
             this.socket.emit('pop_token', obj)
            
             console.log('token is ', CarState.token)
-            AsyncStorage.setItem('member', '')
-            AsyncStorage.setItem('token', '')
-            CarState.token = ''
-            CarState.mac_address = ''
+            AsyncStorage.setItem('member', 'none')
+            CarState.mac_address = 'none'
+            AsyncStorage.setItem('token', 'none')
+            CarState.token = 'none'
             this.moveTo('Login')
           }}/>
 
