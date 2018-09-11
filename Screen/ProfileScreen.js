@@ -73,6 +73,7 @@ class ProfileScreen extends Component {
         let obj = {token: CarState.token, mac_address: CarState.mac_address}
         this.socket.emit('push_token', obj)
         console.log('is push : ', CarState.token)
+        Alert.alert(''+CarState.token)
         clearInterval(inter);
       }
     }, 100)
@@ -122,12 +123,12 @@ class ProfileScreen extends Component {
 
         CheckConnect = setTimeout(() => {
           data = {
-            //date: '',
-            //time: '',
-            //carID: '',
-            //lat: 99.99,
-            //lng: 99.99,
-            //temp: 99.99,
+            date: 'none',
+            time: -99,
+            carID: 'none',
+            lat: -99,
+            lng: -99,
+            temp: '-',
             carStatus: 'ไม่พบสัญญาณ',
             kidStatus: 'ไม่พบสัญญาณ',
             carStatusColor: '#d9534f'
