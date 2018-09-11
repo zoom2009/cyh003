@@ -110,11 +110,11 @@ class ProfileScreen extends Component {
         
         data = {
           date: data.date,
-          time: data.time,
+          time: parseInt(data.time),
           carID: data.id,
-          lat: data.lat,
-          lng: data.lng,
-          temp: data.temp,
+          lat: parseFloat(data.lat),
+          lng: parseFloat(data.lng),
+          temp: parseFloat(data.temp),
           carStatus: 'รถกำลังเคลื่อนที่',
           kidStatus: 'เด็กอยู่ในรถ'
         }
