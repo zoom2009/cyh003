@@ -12,6 +12,17 @@ class CarState {
     temp = 99.99
     carStatusColor = '#000'
     token = 'none'
+
+    //user profile data
+    firstName = ''
+    lastName = ''
+    picURL = ''
+    phone_number = ''
+    home_lat = 99.99
+    home_lng = 99.99
+    school_lat = 99.99
+    school_lng = 99.99
+    //==============================
     
     setlat(l) {
         this.lat = l
@@ -27,6 +38,17 @@ class CarState {
         this.carStatus = data.carStatus
         this.kidStatus = data.kidStatus
     }
+
+    setProfileData(data) {
+        this.firstName = data.firstName
+        this.lastName = data.lastName
+        this.picURL = data.picURL
+        this.phone_number = data.phone_number
+        this.home_lat = data.home_lat
+        this.home_lng = data.home_lng
+        this.school_lat = data.school_lat
+        this.school_lng = data.school_lng
+    }
 }
 
 decorate(CarState, {
@@ -41,7 +63,17 @@ decorate(CarState, {
     temp: observable,
     setlat: action,
     setCarState: action,
-    token: observable
+    token: observable,
+
+    //profile data
+    firstName : observable,
+    lastName: observable,
+    picURL: observable,
+    phone_number: observable,
+    home_lat: observable,
+    home_lng: observable,
+    school_lat: observable,
+    school_lng: observable
 })
 
 const carState = new CarState();

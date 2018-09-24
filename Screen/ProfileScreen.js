@@ -135,7 +135,7 @@ class ProfileScreen extends Component {
           }
           Alert.alert('ไม่พบสัญญาณ')
           CarState.setCarState(data)
-        }, 30000)
+        }, 100000)
       }else {
         console.log('not found this addr:', CarState.mac_address)
         console.log("data is", data)

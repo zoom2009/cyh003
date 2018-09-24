@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 import BtnBottom from '../../components/BtnBottom'
+import TextBlock from '../../components/TextBlock'
 
 import { inject, observer } from 'mobx-react'
 
@@ -12,6 +13,26 @@ class Sub2Screen extends Component {
   constructor(props) {
     super(props)
 
+    this.GetProfileData();
+  }
+
+  GetProfileData() {
+    var { CarState } = this.props
+    console.log('token in sub2 is', CarState.token)
+    let url = 'https://kiddatabase.herokuapp.com/userbytoken/' + CarState.token
+    fetch(url, {
+         method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+         console.log('res is :', responseJson)
+         this.props.CarState.firstName = responseJson.firstName
+         this.props.CarState.lastName = responseJson.lastName
+         this.props.CarState.picURL = responseJson.picURL
+      })
+      .catch((error) => {
+         console.error(error)
+      });
   }
 
   render() {
@@ -26,6 +47,9 @@ class Sub2Screen extends Component {
         colors={['#E30072', '#AD0EB2', '#5800F0']}
         style={styles.container}>
 
+        <Image style={{width: '25%', height: '25%', resizeMode: 'contain'}} source={{uri: CarState.picURL}} />
+        <TextBlock text={'ชื่อ: '+ CarState.firstName} />
+        <TextBlock text={'นามสกุล: '+ CarState.lastName} />
         <Text>Sub2</Text>
 
         <BtnBottom 
@@ -39,7 +63,7 @@ class Sub2Screen extends Component {
     )
   }
 }
-
+// /user/:id/:password
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
