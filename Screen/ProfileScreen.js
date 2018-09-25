@@ -40,8 +40,7 @@ class ProfileScreen extends Component {
     title: 'Profile',
   }
   
-  
- 
+
   constructor(props) {
     super(props)
 
@@ -53,12 +52,15 @@ class ProfileScreen extends Component {
     this.socket = SocketIOClient('https://kiddatabase.herokuapp.com/'); 
 
     var { CarState } = this.props
+
     // Is not have token 
     // but have mac_address
     console.log('before everythings token is : ', CarState.token)
     if(CarState.token == 'none' ) {
       registerForPushNotificationsAsync(function(token) {
         CarState.token = token
+        //=========
+        //=========
         console.log('this macAddress: ', CarState.mac_address, ' is make new token:', CarState.token)
       })
     }

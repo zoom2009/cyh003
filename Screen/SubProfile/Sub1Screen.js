@@ -48,6 +48,8 @@ class Sub1Screen extends Component {
         </View>
 
         <Map 
+          w={"83%"}
+          h={"33%"}
           lat={CarState.lat}
           lng={CarState.lng}
           title="Title"

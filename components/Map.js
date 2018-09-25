@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 //Map
 import { MapView } from 'expo';
 
 export default class Map extends Component {
+    // width: '83%',
+    //     height: '33%',
     render() {
         return (
-            <View style={styles.borderMap}>
+            <View style={[styles.borderMap, 
+                {width: this.props.w, height: this.props.h}]}>
                 <MapView 
                     style={styles.map}
                     region={{
@@ -15,6 +18,7 @@ export default class Map extends Component {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}>
+
 
                     <MapView.Marker
                         image={require('../img/van_icon.png')}
@@ -39,8 +43,6 @@ const styles = StyleSheet.create({
         height: '95%'
     },
     borderMap: {
-        width: '83%',
-        height: '33%',
         backgroundColor: '#EE36B0',
         justifyContent: 'center',
         alignItems: 'center',

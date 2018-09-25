@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 import BtnBottom from '../../components/BtnBottom'
 import TextBlock from '../../components/TextBlock'
+import Map from '../../components/Map'
 
 import { inject, observer } from 'mobx-react'
 
@@ -13,7 +14,7 @@ class Sub2Screen extends Component {
   constructor(props) {
     super(props)
 
-    this.GetProfileData();
+    this.GetProfileData()
   }
 
   GetProfileData() {
@@ -29,6 +30,11 @@ class Sub2Screen extends Component {
          this.props.CarState.firstName = responseJson.firstName
          this.props.CarState.lastName = responseJson.lastName
          this.props.CarState.picURL = responseJson.picURL
+         this.props.CarState.phone_number = responseJson.phone_number
+         this.props.CarState.home_lat = responseJson.homeLocation.lat
+         this.props.CarState.home_lng = responseJson.homeLocation.lng
+         this.props.CarState.school_lat = responseJson.schoolLocation.lat
+         this.props.CarState.school_lng = responseJson.schoolLocation.lng
       })
       .catch((error) => {
          console.error(error)
@@ -47,10 +53,41 @@ class Sub2Screen extends Component {
         colors={['#E30072', '#AD0EB2', '#5800F0']}
         style={styles.container}>
 
-        <Image style={{width: '25%', height: '25%', resizeMode: 'contain'}} source={{uri: CarState.picURL}} />
+        <Image 
+          style={{width: '25%', height: '25%', resizeMode: 'contain', borderRadius: 8}} 
+          source={{uri: CarState.picURL}} />
+
         <TextBlock text={'ชื่อ: '+ CarState.firstName} />
         <TextBlock text={'นามสกุล: '+ CarState.lastName} />
-        <Text>Sub2</Text>
+        <TextBlock text={'เบอร์โทรผู้ปกครอง: '+ CarState.phone_number} />
+        
+        <View style={{marginTop: 7,flexDirection: 'row', height: '18%', width: '96%', justifyContent: 'space-evenly'}}>
+          <View style={{flexDirection: 'column', width: '36%'}}>
+            <Text style={{textAlign: 'center', color: '#fff', fontSize: 18}}>จุดรับ:</Text>
+            <Map 
+              w={"100%"}
+              h={"100%"}
+              lat={CarState.home_lat}
+              lng={CarState.home_lng}
+              title="Title"
+              des="Description"
+            />
+          </View>
+
+          <View style={{flexDirection: 'column', width: '36%'}}>
+            <Text style={{textAlign: 'center', color: '#fff', fontSize: 18}}>จุดส่ง:</Text>
+            <Map 
+              w={"100%"}
+              h={"100%"}
+              lat={CarState.school_lat}
+              lng={CarState.school_lng}
+              title="Title"
+              des="Description"
+            />
+          </View>
+        </View>
+        
+        
 
         <BtnBottom 
           Method={()=>{
