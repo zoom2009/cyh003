@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 import BtnBottom from '../../components/BtnBottom'
 import TextBlock from '../../components/TextBlock'
-import Map from '../../components/Map'
+import MapNoMark from '../../components/MapNoMark'
 
 import { inject, observer } from 'mobx-react'
 
@@ -31,10 +31,10 @@ class Sub2Screen extends Component {
          this.props.CarState.lastName = responseJson.lastName
          this.props.CarState.picURL = responseJson.picURL
          this.props.CarState.phone_number = responseJson.phone_number
-         this.props.CarState.home_lat = responseJson.homeLocation.lat
-         this.props.CarState.home_lng = responseJson.homeLocation.lng
-         this.props.CarState.school_lat = responseJson.schoolLocation.lat
-         this.props.CarState.school_lng = responseJson.schoolLocation.lng
+         this.props.CarState.home_lat = parseFloat(responseJson.homeLocation.lat)
+         this.props.CarState.home_lng = parseFloat(responseJson.homeLocation.lng)
+         this.props.CarState.school_lat = parseFloat(responseJson.schoolLocation.lat)
+         this.props.CarState.school_lng = parseFloat(responseJson.schoolLocation.lng)
       })
       .catch((error) => {
          console.error(error)
@@ -45,7 +45,11 @@ class Sub2Screen extends Component {
     
     const { navigate } = this.props.navigation
     var { CarState } = this.props
+    var myPic = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Flag_of_Taliban_%28original%29.svg/1200px-Flag_of_Taliban_%28original%29.svg.png'
     console.log(CarState)
+    if(CarState.picURL!='') {
+      myPic = CarState.picURL
+    }
     return (
       <LinearGradient 
         start={[0.5,0]}
@@ -54,35 +58,30 @@ class Sub2Screen extends Component {
         style={styles.container}>
 
         <Image 
-          style={{width: '25%', height: '25%', resizeMode: 'contain', borderRadius: 8}} 
-          source={{uri: CarState.picURL}} />
+          style={{width: '22%', height: '22%', resizeMode: 'contain', borderRadius: 8}} 
+          source={{uri: myPic}} />
 
-        <TextBlock text={'ชื่อ: '+ CarState.firstName} />
-        <TextBlock text={'นามสกุล: '+ CarState.lastName} />
+        <TextBlock text={'ชื่อ: '+ CarState.firstName + ' ' + CarState.lastName} />
         <TextBlock text={'เบอร์โทรผู้ปกครอง: '+ CarState.phone_number} />
         
         <View style={{marginTop: 7,flexDirection: 'row', height: '18%', width: '96%', justifyContent: 'space-evenly'}}>
           <View style={{flexDirection: 'column', width: '36%'}}>
             <Text style={{textAlign: 'center', color: '#fff', fontSize: 18}}>จุดรับ:</Text>
-            <Map 
+            <MapNoMark
               w={"100%"}
               h={"100%"}
               lat={CarState.home_lat}
               lng={CarState.home_lng}
-              title="Title"
-              des="Description"
             />
           </View>
 
           <View style={{flexDirection: 'column', width: '36%'}}>
             <Text style={{textAlign: 'center', color: '#fff', fontSize: 18}}>จุดส่ง:</Text>
-            <Map 
+            <MapNoMark
               w={"100%"}
               h={"100%"}
               lat={CarState.school_lat}
               lng={CarState.school_lng}
-              title="Title"
-              des="Description"
             />
           </View>
         </View>
@@ -107,7 +106,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'rgba(210, 37, 37, 0.74)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 40
   },
 });
 
