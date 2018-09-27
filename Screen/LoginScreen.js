@@ -63,6 +63,18 @@ class LoginScreen extends Component {
           console.log(responseJson[0].mac_address)
           let member = responseJson[0].mac_address
           AsyncStorage.setItem('member', member)
+          console.log('****************************')
+          console.log('id', responseJson[0].id)
+          
+          AsyncStorage.setItem('curID', responseJson[0].id, (err) => {
+            if(!err) {
+              this.props.CarState.curID = responseJson[0].id
+              console.log('is set curID', this.props.CarState.curID)
+            }
+          })
+              
+          
+          
           const { navigate } = this.props.navigation
           this.props.CarState.mac_address = responseJson[0].mac_address
           navigate('Profile')

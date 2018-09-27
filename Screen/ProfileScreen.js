@@ -5,6 +5,7 @@ import Logocyh from '../components/Logocyh'
 import BtnNormal from '../components/BtnNormal'
 import BtnFull from '../components/BtnFull'
 import BtnBottom from '../components/BtnBottom'
+import call from 'react-native-phone-call'
 
 import { inject, observer } from 'mobx-react'
 
@@ -137,7 +138,7 @@ class ProfileScreen extends Component {
           }
           Alert.alert('ไม่พบสัญญาณ')
           CarState.setCarState(data)
-        }, 100000)
+        }, 600000)
       }else {
         console.log('not found this addr:', CarState.mac_address)
         console.log("data is", data)
@@ -194,14 +195,20 @@ class ProfileScreen extends Component {
         <BtnNormal
           btnText="ติดต่อคนขับรถ" 
           Method={() => {
-            this.moveTo('Sub3')
+            call({
+              number: '0952586024', 
+              prompt: false
+            }).catch(console.error)
           }}
           />
 
         <BtnFull
           btnText="ติดต่อขอความช่วยเหลือ" 
           Method={() => {
-            this.moveTo('Sub4')
+            call({
+              number: '1669', 
+              prompt: false
+            }).catch(console.error)
           }}
           />
 

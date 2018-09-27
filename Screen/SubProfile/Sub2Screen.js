@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo';
 import BtnBottom from '../../components/BtnBottom'
 import TextBlock from '../../components/TextBlock'
@@ -20,25 +20,58 @@ class Sub2Screen extends Component {
   GetProfileData() {
     var { CarState } = this.props
     console.log('token in sub2 is', CarState.token)
-    let url = 'https://kiddatabase.herokuapp.com/userbytoken/' + CarState.token
-    fetch(url, {
-         method: 'GET'
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-         console.log('res is :', responseJson)
-         this.props.CarState.firstName = responseJson.firstName
-         this.props.CarState.lastName = responseJson.lastName
-         this.props.CarState.picURL = responseJson.picURL
-         this.props.CarState.phone_number = responseJson.phone_number
-         this.props.CarState.home_lat = parseFloat(responseJson.homeLocation.lat)
-         this.props.CarState.home_lng = parseFloat(responseJson.homeLocation.lng)
-         this.props.CarState.school_lat = parseFloat(responseJson.schoolLocation.lat)
-         this.props.CarState.school_lng = parseFloat(responseJson.schoolLocation.lng)
-      })
-      .catch((error) => {
-         console.error(error)
-      });
+    
+
+    AsyncStorage.getItem('curID', (error, result) => {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = (e) => {
+        if (request.readyState !== 4) {
+          return;
+        }
+
+        if (request.status === 200) {
+          console.log('success', request.responseText);
+          let myJson = JSON.parse(request.responseText)
+          console.log('myJSON is :', myJson)
+            CarState.firstName = myJson.firstName
+            CarState.picURL = myJson.picURL
+            CarState.phone_number = myJson.phone_number
+            CarState.home_lat = parseFloat(myJson.homeLocation.lat)
+            CarState.home_lng = parseFloat(myJson.homeLocation.lng)
+            CarState.school_lat = parseFloat(myJson.schoolLocation.lat)
+            CarState.school_lng = parseFloat(myJson.schoolLocation.lng)
+        } else {
+          console.warn('error');
+        }
+      };
+
+      request.open('GET', 'https://kiddatabase.herokuapp.com/userbyid/cyh001');
+      request.send();
+      // let url = 'https://kiddatabase.herokuapp.com/userbyid/cyh001' 
+      // fetch(url, {
+      //     method: 'GET'
+      //   })
+      //   .then((response) => { 
+      //     console.log('--------------------------')
+      //     console.log('my res:', JSON.stringify(response))
+      //     //response.json() 
+      //   })
+        // .then((responseJson) => {
+        //   console.log('res is :', responseJson)
+        //   this.props.CarState.firstName = responseJson.firstName
+        //   this.props.CarState.lastName = responseJson.lastName
+        //   this.props.CarState.picURL = responseJson.picURL
+        //   this.props.CarState.phone_number = responseJson.phone_number
+        //   this.props.CarState.home_lat = parseFloat(responseJson.homeLocation.lat)
+        //   this.props.CarState.home_lng = parseFloat(responseJson.homeLocation.lng)
+        //   this.props.CarState.school_lat = parseFloat(responseJson.schoolLocation.lat)
+        //   this.props.CarState.school_lng = parseFloat(responseJson.schoolLocation.lng)
+        // })
+        // .catch((error) => {
+        //   console.error(error)
+        // });
+    })
+    
   }
 
   render() {

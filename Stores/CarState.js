@@ -1,6 +1,7 @@
 import {observable, action, computed, decorate} from 'mobx'
 
 class CarState {
+    curID = 'none'
     mac_address = 'none'
     date = ''
     time = ''
@@ -52,6 +53,7 @@ class CarState {
 }
 
 decorate(CarState, {
+    carID: observable,
     mac_address: observable,
     date: observable,
     time: observable,
